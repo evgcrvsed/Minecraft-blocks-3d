@@ -1,15 +1,18 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+from sqlalchemy.ext.asyncio import AsyncSession
 
-router = APIRouter(tags=["health"])
+from schemas.block import BlockCreate, BlockRead
+from repositories.block import BlockRepository
+from db.session import get_db
 
-@router.get("/health", tags=["health"])
-async def health_check():
-    return {
-        "status": "healthy",
-        "timestamp": datetime.now().isoformat(),
-        "version": "1.0.0",
-        # можно добавить проверки:
-        # "database": "connected" / "error",
-        # "redis": "ok",
-        # "disk_space": "12.5GB free"
-    }
+router = APIRouter(prefix="/blocks", tags=["blocks"])
+
+
+@router.post("/", response_model=BlockRead, status_code=201)
+async def create_block(
+    block_in: BlockCreate,
+    db: AsyncSession = Depends(get_db)
+):
+    repo = BlockRepository(db)
+    block = await repo.create(block_in)
+    return block
