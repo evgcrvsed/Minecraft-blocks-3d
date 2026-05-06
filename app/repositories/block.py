@@ -15,3 +15,9 @@ class BlockRepository(BaseRepository[Block]):
         await self.session.commit()
         await self.session.refresh(db_block)
         return db_block
+
+    async def get_by_minecraft_id(self, minecraft_id: str) -> Block | None:
+        result = await self.session.execute(
+            select(Block).where(Block.minecraft_id == minecraft_id)
+        )
+        return result.scalar_one_or_none()

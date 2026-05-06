@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from schemas.block import BlockCreate, BlockRead
@@ -14,5 +14,7 @@ async def create_block(
     db: AsyncSession = Depends(get_db)
 ):
     repo = BlockRepository(db)
-    block = await repo.create(block_in)
-    return block
+    block = await repo.get_by_minecraft_id(block_in.minecraft_id)
+    if block:
+        raise HTTPException(status_code=409, detail="Блок с таким id уже существует!")
+    return await repo.create(block_in)
