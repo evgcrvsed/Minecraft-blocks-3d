@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class BlockBase(BaseModel):
@@ -23,3 +23,5 @@ class BlockCreate(BlockBase):
 
 class BlockRead(BlockBase):
     id: int
+
+    model_config = ConfigDict(from_attributes=True)

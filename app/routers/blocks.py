@@ -5,7 +5,7 @@ from schemas.block import BlockCreate, BlockRead
 from repositories.block import BlockRepository
 from db.session import get_db
 
-router = APIRouter(prefix="/blocks", tags=["blocks"])
+router = APIRouter(prefix="/blocks", tags=["Blocks"])
 
 
 @router.post("/", response_model=BlockRead, status_code=201)
