@@ -25,7 +25,6 @@ class BlockService:
         return BlockRead.model_validate(block)
 
     async def delete_block(self, block_in: BlockDelete) -> BlockRead:
-        # Бизнес-логика
         existing = await self.repo.get_by_minecraft_id(block_in.minecraft_id)
         if not existing:
             raise HTTPException(
