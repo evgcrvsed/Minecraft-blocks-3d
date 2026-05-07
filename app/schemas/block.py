@@ -16,10 +16,11 @@ class BlockBase(BaseModel):
     )
     info: str | None = Field(None, description="Дополнительная информация")
 
-
 class BlockCreate(BlockBase):
     pass
 
+class BlockDelete(BlockBase):
+    pass
 
 class BlockRead(BlockBase):
     id: int

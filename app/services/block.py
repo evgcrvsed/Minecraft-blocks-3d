@@ -1,6 +1,6 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from repositories.block import BlockRepository
-from schemas.block import BlockCreate, BlockRead
+from schemas.block import BlockCreate, BlockDelete, BlockRead
 from fastapi import HTTPException, status
 
 
@@ -23,3 +23,17 @@ class BlockService:
 
         block = await self.repo.create(block_in)
         return BlockRead.model_validate(block)
+
+    async def delete_block(self, block_in: BlockDelete) -> BlockRead:
+        # Бизнес-логика
+        existing = await self.repo.get_by_minecraft_id(block_in.minecraft_id)
+        if not existing:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Блок с таким minecraft_id уже существует"
+            )
+
+        block = await self.repo.delete(block_in)
+        return BlockRead.model_validate(block)
+
+

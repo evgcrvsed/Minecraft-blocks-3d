@@ -1,6 +1,6 @@
 from .base import BaseRepository
 from models.block import Block
-from schemas.block import BlockCreate
+from schemas.block import BlockCreate, BlockDelete
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -15,6 +15,12 @@ class BlockRepository(BaseRepository[Block]):
         await self.session.commit()
         await self.session.refresh(db_block)
         return db_block
+
+    async def delete(self, block_in: BlockDelete) -> None:
+        db_block = Block(**block_in.model_dump())
+        await self.session.delete(db_block)
+        await self.session.commit()
+        await self.session.refresh(db_block)
 
     async def get_by_minecraft_id(self, minecraft_id: str) -> Block | None:
         result = await self.session.execute(

@@ -13,3 +13,10 @@ async def create_block(
     service: BlockService = Depends(get_block_service)   # ← правильно!
 ):
     return await service.create_block(block_in)
+
+@router.post("/", response_model=BlockRead, status_code=201)
+async def delete_block(
+    block_in: BlockCreate,
+    service: BlockService = Depends(get_block_service)   # ← правильно!
+):
+    return await service.delete_block(block_in)
