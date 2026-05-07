@@ -19,8 +19,13 @@ class BlockBase(BaseModel):
 class BlockCreate(BlockBase):
     pass
 
-class BlockDelete(BlockBase):
-    pass
+class BlockDelete(BaseModel):
+    minecraft_id: str = Field(
+        ...,
+        min_length=1,
+        max_length=30,
+        description="minecraft:stone или просто stone"
+    )
 
 class BlockRead(BlockBase):
     id: int

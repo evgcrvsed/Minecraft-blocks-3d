@@ -14,9 +14,9 @@ async def create_block(
 ):
     return await service.create_block(block_in)
 
-@router.post("/delete", response_model=BlockRead, status_code=201)
+@router.delete("/{minecraft_id}", status_code=204)
 async def delete_block(
-    block_in: BlockDelete,
-    service: BlockService = Depends(get_block_service)   # ← правильно!
+    minecraft_id: str,
+    service: BlockService = Depends(get_block_service)
 ):
-    return await service.delete_block(block_in)
+    await service.delete_block(BlockDelete(minecraft_id=minecraft_id))
