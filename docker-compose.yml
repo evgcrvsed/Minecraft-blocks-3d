@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:16
+    container_name: minecraft-blocks-3d-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123   # ← поменяй на свой
+      POSTGRES_DB: todo_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: minecraft-blocks-3d-fastapi
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: postgresql+asyncpg://postgres:password123@db:5432/todo_db
+      # SECRET_KEY и DEBUG можешь оставить из .env
+    depends_on:
+      - db
+    volumes:
+      - ./app:/app   # для hot-reload в разработке
+
+volumes:
+  postgres_data:

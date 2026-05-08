@@ -3,4 +3,4 @@ pydantic
 uvicorn
 pydantic_settings
 sqlalchemy
-aiosqlite
+asyncpg

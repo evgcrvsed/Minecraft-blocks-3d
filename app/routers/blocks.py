@@ -19,4 +19,4 @@ async def delete_block(
     minecraft_id: str,
     service: BlockService = Depends(get_block_service)
 ):
-    await service.delete_block(BlockDelete(minecraft_id=minecraft_id))
+    return await service.delete_block(BlockDelete(minecraft_id=minecraft_id))

@@ -30,6 +30,6 @@ app.include_router(blocks_router)
 app.include_router(health_router)
 
 
-@app.get("/", description='И что ты ожидал тут увидеть?', tags=['index'])
+@app.get("/", description='И что ты ожидал тут увидеть?', tags=['Index'])
 async def root():
     return {"message": "Todo API работает! Перейди на /docs"}
