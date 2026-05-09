@@ -13,7 +13,7 @@ from core.config import settings
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
-    print("✅ База данных инициализирована!!!")
+    print("✅ База данных инициализирована")
 
     yield
 
